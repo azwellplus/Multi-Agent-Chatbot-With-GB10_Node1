@@ -1,0 +1,64 @@
+/*
+# SPDX-FileCopyrightText: Copyright (c) 1993-2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+*/
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.25);
+  color: var(--neutral-hard);
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 200ms ease;
+  backdrop-filter: blur(18px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 12px 26px rgba(15, 17, 37, 0.18);
+}
+
+:global(.dark) .toggle {
+  border-color: rgba(142, 153, 187, 0.35);
+  background: rgba(16, 20, 32, 0.65);
+  color: var(--neutral-soft);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 16px 30px rgba(6, 10, 26, 0.36);
+}
+
+.toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 32px rgba(15, 17, 37, 0.22);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid rgba(87, 242, 235, 0.75);
+  outline-offset: 3px;
+}
+
+.label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: var(--font-heading);
+}
+
+.icon {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+}
+
+.icon svg {
+  width: 100%;
+  height: 100%;
+}

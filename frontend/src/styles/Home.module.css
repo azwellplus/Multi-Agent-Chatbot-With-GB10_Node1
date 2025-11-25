@@ -1,0 +1,218 @@
+/*
+# SPDX-FileCopyrightText: Copyright (c) 1993-2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+*/
+.shell {
+  --shell-vertical-padding: 32px;
+  position: relative;
+  height: 100vh;
+  min-height: 100vh;
+  padding: var(--shell-vertical-padding) clamp(20px, 6vw, 48px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebarToggle {
+  position: absolute;
+  top: clamp(16px, 4vw, 24px);
+  left: clamp(16px, 4vw, 24px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.25);
+  color: var(--neutral-hard);
+  box-shadow: 0 12px 24px rgba(12, 16, 33, 0.22);
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease;
+  z-index: 80;
+}
+
+.sidebarToggle:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.35);
+}
+
+:global(.dark) .sidebarToggle {
+  border-color: rgba(143, 155, 255, 0.32);
+  background: rgba(31, 41, 69, 0.6);
+  color: var(--neutral-soft);
+}
+
+:global(.dark) .sidebarToggle:hover {
+  background: rgba(43, 56, 94, 0.7);
+}
+
+.sidebarToggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.sidebarToggleCollapsed {
+  animation: fadeInScale 220ms ease forwards;
+}
+
+.workspace {
+  flex: 1;
+  display: grid;
+  grid-template-columns: clamp(260px, 22vw, 320px) minmax(0, 1fr);
+  gap: 24px;
+  min-height: 0;
+  position: relative;
+  height: calc(100vh - (2 * var(--shell-vertical-padding)));
+  max-height: calc(100vh - (2 * var(--shell-vertical-padding)));
+  overflow: hidden;
+}
+
+.workspaceCollapsed {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.workspaceMobile {
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(16px, 4vw, 24px);
+}
+
+.sidebarPane {
+  position: relative;
+  align-self: stretch;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.chatStage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border-radius: var(--radius-lg);
+  background: var(--glass-surface);
+  border: 1px solid var(--border-glass);
+  backdrop-filter: blur(22px);
+  box-shadow: var(--shadow-elevated);
+  overflow: hidden;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+}
+
+.mobileSidebarOverlay {
+  display: none;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 7, 18, 0.55);
+  backdrop-filter: blur(6px);
+  z-index: 40;
+}
+
+.documentUploadContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+  width: min(620px, calc(100% - 36px));
+  background: transparent;
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(24px);
+}
+
+@media (max-width: 1080px) {
+  .shell {
+    --shell-vertical-padding: 24px;
+    padding-inline: clamp(16px, 5vw, 24px);
+    padding-block: var(--shell-vertical-padding);
+  }
+
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+    height: calc(100vh - (2 * var(--shell-vertical-padding)));
+    max-height: calc(100vh - (2 * var(--shell-vertical-padding)));
+    overflow: hidden;
+  }
+
+  .chatStage {
+    order: 1;
+    min-height: 0;
+    height: calc(100vh - (2 * var(--shell-vertical-padding)));
+    max-height: calc(100vh - (2 * var(--shell-vertical-padding)));
+  }
+
+  .sidebarPane {
+    position: fixed;
+    top: clamp(16px, 5vw, 28px);
+    left: clamp(16px, 6vw, 28px);
+    width: min(340px, calc(100% - 2 * clamp(16px, 6vw, 28px)));
+    height: calc(100vh - (2 * var(--shell-vertical-padding)));
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-glass);
+    background: var(--glass-surface);
+    box-shadow: 0 30px 90px rgba(8, 12, 28, 0.55);
+    overflow-y: auto;
+    z-index: 60;
+    backdrop-filter: blur(24px);
+  }
+
+  .sidebarPaneMobile {
+    animation: sidebarSlideIn 240ms ease forwards;
+  }
+
+  .mobileSidebarOverlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(6, 9, 18, 0.55);
+    backdrop-filter: blur(6px);
+    z-index: 50;
+  }
+}
+
+@keyframes sidebarSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 720px) {
+  .workspace {
+    gap: 16px;
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
