@@ -1,5 +1,6 @@
 {
   "sources": [
+    "WhyJENNIFER-KR.pdf"
   ],
   "models": [
     "gpt-oss-120b"

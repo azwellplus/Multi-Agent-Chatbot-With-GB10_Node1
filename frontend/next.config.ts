@@ -16,12 +16,20 @@
 */
 import type { NextConfig } from "next";
 
+const backendOrigin = process.env.NEXT_PUBLIC_BACKEND_ORIGIN || "";
+
+// Debug: 빌드/시작 시 환경변수 확인
+console.log("[next.config.ts] Environment Variables Debug:");
+console.log("  NEXT_PUBLIC_BACKEND_ORIGIN:", process.env.NEXT_PUBLIC_BACKEND_ORIGIN);
+console.log("  backendOrigin:", backendOrigin);
+
 const nextConfig: NextConfig = {
   async rewrites() {
+    console.log("[next.config.ts] rewrites() - backendOrigin:", backendOrigin);
     return [
       {
         source: '/api/:path*',
-        destination: 'http://192.168.108.31:8000/:path*',
+        destination: `${backendOrigin}/:path*`,
       },
     ];
   },

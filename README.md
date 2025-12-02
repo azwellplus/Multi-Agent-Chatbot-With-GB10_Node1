@@ -219,8 +219,12 @@ docker ps
 
 ### 1. 리포지토리 클론 후 multi-agent-chatbot 디렉터리로 이동
 ```bash
-git clone <repo-url>
-cd multi-agent-chatbot
+git clone git@github.com:azwellplus/Multi-Agent-Chatbot-With-GB10.git
+
+# git 인증 문제가 발생시 아래와 같이 https 사용
+git clone https://github.com/azwellplus/Multi-Agent-Chatbot-With-GB10.git
+
+cd Multi-Agent-Chatbot-With-GB10
 ```
 
 ### 2. Docker 권한 설정
@@ -239,19 +243,37 @@ newgrp docker
 - Deepseek-Coder-6.7B (~7GB)  
 - Qwen3-Embedding-4B (~4GB)
 
-네트워크 속도에 따라 약 **30분~2시간** 소요될 수 있습니다.
+> 네트워크 속도에 따라 약 **30분~2시간** 소요될 수 있습니다.
 
 ```bash
 chmod +x model_download.sh
 ./model_download.sh
 ```
-
+> ⚠️ **참고:**  
+> 모델 다운로드의 경우 huggingface 인증을 요구 할 수 있습니다.
+>> 참고 URL : [huggingface 인증방법](https://huggingface.co/docs/hub/en/security-tokens)
 ---
 
 ### 4. Docker 컨테이너 실행
 모델 서버, 백엔드 API, 프론트엔드를 포함한 전체 서비스를 Docker Compose로 실행합니다.
+실행이 편하도록 쉘을 수행 할 수 있도록 만들어 두었습니다.
 
+- <b>build.sh</b>
+  - FRONT , BACKEND 와 연관된 부분 build
+- <b>build_models.sh</b>
+  - 모델과 연관된 부분 build
+- <b>start_all.sh</b>
+  - 전체적으로 docker 모두 수행
+- <b>start_basic.sh</b>
+  - FRONT , BACKEND 와 연관된 부분만 수행
+- <b>start_model.sh</b>
+  - 모델과 연관된 부분만 수행
+- <b>stop.sh</b>
+  - 모든 docker를 중지하는 명령
+    
 ```bash
+# 기본적으로 전체 빌드 후 기동  하는 명령
+# 처음 빌드시 다운로드가 되는 부분이 있어 느릴수 있습니다.
 docker compose -f docker-compose.yml -f docker-compose-models.yml up -d --build
 ```
 
@@ -260,6 +282,8 @@ docker compose -f docker-compose.yml -f docker-compose-models.yml up -d --build
 
 컨테이너 상태 확인:
 ```bash
+# 중요 몇개 정보만 보는 명령어
+# docker ps 만 해도 됩니다. format 부분은 화면 해상도가 낮을때 편리합니다.
 watch 'docker ps --format "table {{.ID}}	{{.Names}}	{{.Status}}"'
 ```
 
@@ -275,9 +299,12 @@ rm -rf <문제된_파일명>
 
 ### 5. 프론트엔드 UI 접속
 브라우저에서 다음 주소로 이동:
-👉 [http://localhost:3000](http://localhost:3000)
+👉 [http://GB10_SERVER_IP:3000](http://192.168.100.100:3000)
 
-> 원격 GPU 서버에서 SSH로 접속 중이라면 다음 명령을 별도 터미널에서 실행해야 합니다:
+>원격 GPU 서버에서 SSH로 접속 중이라면 다음 명령을 별도 터미널에서 실행해야 합니다:
+>> SSH 포트 포워딩(SSH Tunneling)을 하는 이유는 Front에서 Backend 를 호출 할때 Websocket을 사용하는데 기본적으로 Websocket 주소가 localhost로
+>> 되어 있으면 화면이 뜬 위치에서 localhost를 찾기 때문에 아래와 같이 포트 포워딩을 해야 동작을 하게 됩니다. 
+
 ```bash
 ssh -L 3000:localhost:3000 -L 8000:localhost:8000 username@IP-address
 ```

@@ -36,7 +36,7 @@ from mcp.server.fastmcp import FastMCP
 # Internal URL for API calls (Docker network)
 COMFYUI_API_URL = os.getenv("COMFYUI_API_URL", "http://comfyui:8188")
 # External URL for browser access (public IP)
-COMFYUI_PUBLIC_URL = os.getenv("COMFYUI_PUBLIC_URL", "http://192.168.108.31:8188")
+COMFYUI_PUBLIC_URL = os.getenv("COMFYUI_PUBLIC_URL", "")
 
 print(f"[image_generation] ComfyUI API URL: {COMFYUI_API_URL}")
 print(f"[image_generation] ComfyUI Public URL: {COMFYUI_PUBLIC_URL}")

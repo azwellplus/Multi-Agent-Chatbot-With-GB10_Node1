@@ -248,10 +248,14 @@ export default function QuerySection({
   }, [setIsStreaming]);
   const [pendingImage, setPendingImage] = useState<{ id: string; name: string; url: string } | null>(null);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
-  const backendOrigin =
-    typeof process !== "undefined" && process.env.NEXT_PUBLIC_BACKEND_ORIGIN
-      ? process.env.NEXT_PUBLIC_BACKEND_ORIGIN
-      : "http://192.168.108.31:8000";
+  const backendOrigin = process.env.NEXT_PUBLIC_BACKEND_ORIGIN ?? "";
+
+  // Debug: 환경변수 확인
+  useEffect(() => {
+    console.log("[QuerySection] Environment Variables Debug:");
+    console.log("  NEXT_PUBLIC_BACKEND_ORIGIN:", process.env.NEXT_PUBLIC_BACKEND_ORIGIN);
+    console.log("  backendOrigin:", backendOrigin);
+  }, [backendOrigin]);
 
   const resolveImageUrl = useCallback(
     (rawUrl: string) => {
@@ -339,10 +343,8 @@ export default function QuerySection({
           wsRef.current.close();
         }
 
-        const wsProtocol = 'ws:';
-        const wsHost = '192.168.108.31';
-        const wsPort = '8000';
-        const ws = new WebSocket(`${wsProtocol}//${wsHost}:${wsPort}/ws/chat/${currentChatId}`);
+        const wsUrl = backendOrigin.replace(/^http/, 'ws');
+        const ws = new WebSocket(`${wsUrl}/ws/chat/${currentChatId}`);
         wsRef.current = ws;
 
         ws.onmessage = (event) => {
