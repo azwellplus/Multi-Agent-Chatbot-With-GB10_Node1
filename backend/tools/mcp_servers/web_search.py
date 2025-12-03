@@ -1,18 +1,13 @@
-#
-# SPDX-FileCopyrightText: Copyright (c) 1993-2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-# SPDX-License-Identifier: Apache-2.0
-#
-
 """Web search MCP server backed by SerpAPI."""
-
 import os
 from typing import Any, Dict, List
 
+from dotenv import load_dotenv
 from langchain_community.utilities import SerpAPIWrapper
 from mcp.server.fastmcp import FastMCP
 
-# Set your SerpAPI API key here for testing purposes.
-os.environ["SERPAPI_API_KEY"] = 'd0dadc93b49fce33dd51e6fe4de9dfef817ba4376ffae74a2a4dfa54f2aff809'
+# Load environment variables from .env file
+load_dotenv()
 
 mcp = FastMCP("web-search")
 

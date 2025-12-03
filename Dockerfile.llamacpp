@@ -66,6 +66,7 @@ FROM base
 
 ENV LLAMA_ARG_HOST=0.0.0.0
 
+COPY --from=build /app/build/bin/lib*.so* /usr/lib/
 COPY --from=build /app/full/llama-server /app
 
 WORKDIR /app

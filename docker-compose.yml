@@ -31,6 +31,8 @@ services:
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    env_file:
+      - .env
     environment:
       - PYTHONUNBUFFERED=1
       - POSTGRES_HOST=postgres

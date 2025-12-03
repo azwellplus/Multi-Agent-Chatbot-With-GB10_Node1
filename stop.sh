@@ -1,2 +1,2 @@
-docker compose -f docker-compose.yml -f docker-compose-models.yml down
+docker compose -f docker-compose.yml down
 
